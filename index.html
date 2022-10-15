@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <title>Material design color finder</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script type="text/javascript" src="colorFinder.js"></script>
+  </head>
+  <body style="background-color: rgb(83, 83, 83)">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Color Hex" id="inputColor" >
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" id="findColor" style="background-color: white" >Find color</button>
+      </div>
+    </div>
+    <div id="colorOutput"></div>
+    <script type="text/javascript">
+      function findAndRenderColor() {
+        const value = document.getElementById("inputColor").value;
+        const trimmedValue = value.replace("#", "");
+        const result = findClosestColor(trimmedValue);
+
+        const outputNode = document.getElementById("colorOutput");
+        
+        outputNode.innerHTML = `
+        <div style="border: 1px solid black">
+          <div style="height:50px; background-color: #${trimmedValue}; border-bottom: 2px solid black">#${trimmedValue.toUpperCase()}</div>
+        ${result.map(function (result) {
+          return `<div style="height:50px; background-color: #${result.colorHex}">#${result.colorHex} ${result.colorKey} </div>`
+        }).join("")}
+        </div>
+        `;
+      }
+
+      document
+        .getElementById("findColor")
+        .addEventListener("click", findAndRenderColor);
+
+        document
+        .getElementById("inputColor")
+        .addEventListener("keydown", function(key) {
+          if (key.key === "Enter") {
+            findAndRenderColor()
+          }
+        });
+
+    </script>
+  </body>
+</html>
